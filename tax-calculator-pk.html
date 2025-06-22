@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Calculator for Pakistani - Verified</title>
+    <title>Tax Calculator for Pakistani</title>
     <style>
         * {
             margin: 0;
@@ -228,8 +228,6 @@
             border-radius: 5px;
         }
 
-
-
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -292,12 +290,30 @@
                 box-shadow: 0 8px 25px rgba(238, 90, 82, 0.3);
             }
         }
+
+        .calculation-note {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #155724;
+        }
+
+        .fix-notice {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
     <div class="container animate-in">
         <div class="header">
-            <h1>Tax Calculator - Verified</h1>
+            <h1>Tax Calculator</h1>
             <p>Calculate your income tax according to Pakistani tax slabs</p>
         </div>
 
@@ -342,6 +358,10 @@
                     <span class="result-label">Annual Taxable Income:</span>
                     <span class="result-value" id="taxableIncome">PKR 0</span>
                 </div>
+                <div class="result-item">
+                    <span class="result-label">Applicable Tax Slab:</span>
+                    <span class="result-value" id="applicableSlab">-</span>
+                </div>
                 <div class="result-item tax-highlight">
                     <span class="result-label">Annual Tax Payable:</span>
                     <span class="result-value" id="taxPayable">PKR 0</span>
@@ -362,9 +382,11 @@
                     <span class="result-label">Effective Tax Rate:</span>
                     <span class="result-value" id="effectiveRate">0%</span>
                 </div>
+                
+                <div class="calculation-note">
+                    <strong>📊 Calculation Method:</strong> <span id="calculationExplanation">-</span>
+                </div>
             </div>
-
-
 
             <div class="tax-slabs">
                 <h3 id="slabTitle">📊 Tax Slabs for Individuals (2025-26)</h3>
@@ -381,10 +403,13 @@
         
         <footer style="text-align: center; padding: 20px 30px; background: #f8f9fa; color: #2c3e50; border-radius: 0 0 20px 20px; margin-top: 0; border-top: 1px solid #dee2e6;">
           <div style="font-weight: 600; font-size: 1.1rem;">
-            🚀 Developed by Waqar Un Nabi - Verified Version
+            🚀 Developed by Waqar Un Nabi
           </div>
           <div style="margin-top: 8px; font-size: 0.9rem; opacity: 0.8;">
             Empowering financial clarity with elegant simplicity
+          </div>
+          <div style="margin-top: 5px; font-size: 0.8rem; opacity: 0.6;">
+            © 2025 All Rights Reserved
           </div>
         </footer>
     </div>
@@ -402,45 +427,45 @@
         function getTaxSlabs(year) {
             const taxSlabs = {
                 '2025-26': [
-                    { min: 0, max: 600000, rate: 0 },
-                    { min: 600001, max: 1200000, rate: 0.07 },
-                    { min: 1200001, max: 2200000, rate: 0.17 },
-                    { min: 2200001, max: 3200000, rate: 0.27 },
-                    { min: 3200001, max: 4100000, rate: 0.32 },
-                    { min: 4100001, max: Infinity, rate: 0.37 }
+                    { min: 0, max: 600000, rate: 0, fixedAmount: 0 },
+                    { min: 600001, max: 1200000, rate: 0.07, fixedAmount: 0 },
+                    { min: 1200001, max: 2200000, rate: 0.17, fixedAmount: 42000 },
+                    { min: 2200001, max: 3200000, rate: 0.27, fixedAmount: 212000 },
+                    { min: 3200001, max: 4100000, rate: 0.32, fixedAmount: 482000 },
+                    { min: 4100001, max: Infinity, rate: 0.37, fixedAmount: 770000 }
                 ],
                 '2024-25': [
-                    { min: 0, max: 600000, rate: 0 },
-                    { min: 600001, max: 1200000, rate: 0.05 },
-                    { min: 1200001, max: 2200000, rate: 0.15 },
-                    { min: 2200001, max: 3200000, rate: 0.25 },
-                    { min: 3200001, max: 4100000, rate: 0.30 },
-                    { min: 4100001, max: Infinity, rate: 0.35 }
+                    { min: 0, max: 600000, rate: 0, fixedAmount: 0 },
+                    { min: 600001, max: 1200000, rate: 0.05, fixedAmount: 0 },
+                    { min: 1200001, max: 2200000, rate: 0.15, fixedAmount: 30000 },
+                    { min: 2200001, max: 3200000, rate: 0.25, fixedAmount: 180000 },
+                    { min: 3200001, max: 4100000, rate: 0.30, fixedAmount: 430000 },
+                    { min: 4100001, max: Infinity, rate: 0.35, fixedAmount: 700000 }
                 ],
                 '2023-24': [
-                    { min: 0, max: 600000, rate: 0 },
-                    { min: 600001, max: 1200000, rate: 0.025 },
-                    { min: 1200001, max: 2200000, rate: 0.125 },
-                    { min: 2200001, max: 3200000, rate: 0.20 },
-                    { min: 3200001, max: 4100000, rate: 0.25 },
-                    { min: 4100001, max: Infinity, rate: 0.30 }
+                    { min: 0, max: 600000, rate: 0, fixedAmount: 0 },
+                    { min: 600001, max: 1200000, rate: 0.025, fixedAmount: 0 },
+                    { min: 1200001, max: 2200000, rate: 0.125, fixedAmount: 15000 },
+                    { min: 2200001, max: 3200000, rate: 0.20, fixedAmount: 140000 },
+                    { min: 3200001, max: 4100000, rate: 0.25, fixedAmount: 340000 },
+                    { min: 4100001, max: Infinity, rate: 0.30, fixedAmount: 565000 }
                 ],
                 '2022-23': [
-                    { min: 0, max: 600000, rate: 0 },
-                    { min: 600001, max: 1200000, rate: 0.02 },
-                    { min: 1200001, max: 2200000, rate: 0.10 },
-                    { min: 2200001, max: 3200000, rate: 0.175 },
-                    { min: 3200001, max: 4100000, rate: 0.225 },
-                    { min: 4100001, max: Infinity, rate: 0.275 }
+                    { min: 0, max: 600000, rate: 0, fixedAmount: 0 },
+                    { min: 600001, max: 1200000, rate: 0.02, fixedAmount: 0 },
+                    { min: 1200001, max: 2200000, rate: 0.10, fixedAmount: 12000 },
+                    { min: 2200001, max: 3200000, rate: 0.175, fixedAmount: 112000 },
+                    { min: 3200001, max: 4100000, rate: 0.225, fixedAmount: 287000 },
+                    { min: 4100001, max: Infinity, rate: 0.275, fixedAmount: 489500 }
                 ],
                 '2021-22': [
-                    { min: 0, max: 600000, rate: 0 },
-                    { min: 600001, max: 1200000, rate: 0.0 },
-                    { min: 1200001, max: 1800000, rate: 0.05 },
-                    { min: 1800001, max: 2500000, rate: 0.10 },
-                    { min: 2500001, max: 3500000, rate: 0.15 },
-                    { min: 3500001, max: 5000000, rate: 0.20 },
-                    { min: 5000001, max: Infinity, rate: 0.25 }
+                    { min: 0, max: 600000, rate: 0, fixedAmount: 0 },
+                    { min: 600001, max: 1200000, rate: 0.0, fixedAmount: 0 },
+                    { min: 1200001, max: 1800000, rate: 0.05, fixedAmount: 0 },
+                    { min: 1800001, max: 2500000, rate: 0.10, fixedAmount: 30000 },
+                    { min: 2500001, max: 3500000, rate: 0.15, fixedAmount: 100000 },
+                    { min: 3500001, max: 5000000, rate: 0.20, fixedAmount: 250000 },
+                    { min: 5000001, max: Infinity, rate: 0.25, fixedAmount: 550000 }
                 ]
             };
             return taxSlabs[year] || taxSlabs['2024-25'];
@@ -469,9 +494,18 @@
                     rangeText = `PKR ${slab.min.toLocaleString()} to PKR ${slab.max.toLocaleString()}`;
                 }
                 
+                let taxText;
+                if (slab.fixedAmount === 0 && slab.rate === 0) {
+                    taxText = '<strong>Nil</strong>';
+                } else if (slab.fixedAmount === 0) {
+                    taxText = `<strong>${(slab.rate * 100).toFixed(1)}%</strong>`;
+                } else {
+                    taxText = `<strong>PKR ${slab.fixedAmount.toLocaleString()} + ${(slab.rate * 100).toFixed(1)}%</strong> on excess`;
+                }
+                
                 slabItem.innerHTML = `
                     <span>${rangeText}</span>
-                    <span><strong>${(slab.rate * 100).toFixed(1)}%</strong></span>
+                    <span>${taxText}</span>
                 `;
                 
                 container.appendChild(slabItem);
@@ -491,30 +525,30 @@
         function calculateTaxCorrect(income, year) {
             const slabs = getTaxSlabs(year);
             let tax = 0;
-            let processedIncome = 0;
+            let applicableSlab = null;
 
+            // Find the applicable tax slab for the given income
             for (let i = 0; i < slabs.length; i++) {
                 const slab = slabs[i];
-                const slabStart = slab.min;
-                const slabEnd = slab.max;
-                const rate = slab.rate;
-
-                if (income <= processedIncome) break;
-
-                const taxableInThisSlab = Math.min(income - processedIncome, slabEnd - slabStart + 1);
                 
-                if (taxableInThisSlab > 0 && income > slabStart) {
-                    const actualTaxable = Math.min(taxableInThisSlab, income - Math.max(processedIncome, slabStart));
-                    if (actualTaxable > 0) {
-                        tax += actualTaxable * rate;
+                if (income >= slab.min && income <= slab.max) {
+                    // Found the correct slab
+                    applicableSlab = slab;
+                    tax = slab.fixedAmount;
+                    
+                    // Add percentage tax on the amount above the minimum of this slab
+                    const amountAboveMin = income - slab.min;
+                    if (amountAboveMin > 0) {
+                        tax += amountAboveMin * slab.rate;
                     }
+                    break; // Exit loop once we find the correct slab
                 }
-                
-                processedIncome = slabEnd + 1;
-                if (slab.max === Infinity) break;
             }
 
-            return Math.max(0, tax);
+            return {
+                tax: Math.max(0, Math.round(tax)),
+                slab: applicableSlab
+            };
         }
 
         function calculateTax() {
@@ -532,12 +566,15 @@
             document.querySelector('.calculate-btn').classList.add('loading');
             
             setTimeout(() => {
-                const annualTax = calculateTaxCorrect(annualIncome, taxYear);
+                const result = calculateTaxCorrect(annualIncome, taxYear);
+                const annualTax = result.tax;
+                const slab = result.slab;
                 const monthlyTax = annualTax / 12;
                 const netAnnualIncome = annualIncome - annualTax;
                 const netMonthlyIncome = netAnnualIncome / 12;
                 const effectiveRate = annualIncome > 0 ? (annualTax / annualIncome * 100) : 0;
 
+                // Display results
                 document.getElementById('incomeDisplayLabel').textContent = incomeType === 'monthly' ? 'Monthly Income:' : 'Annual Income:';
                 document.getElementById('displayIncome').textContent = formatCurrency(inputAmount);
                 document.getElementById('taxableIncome').textContent = formatCurrency(annualIncome);
@@ -547,6 +584,30 @@
                 document.getElementById('netMonthlyIncome').textContent = formatCurrency(netMonthlyIncome);
                 document.getElementById('effectiveRate').textContent = effectiveRate.toFixed(2) + '%';
 
+                // Display applicable slab
+                let slabText = 'No Tax';
+                if (slab && slab.rate > 0) {
+                    if (slab.max === Infinity) {
+                        slabText = `Above PKR ${slab.min.toLocaleString()}`;
+                    } else {
+                        slabText = `PKR ${slab.min.toLocaleString()} - ${slab.max.toLocaleString()}`;
+                    }
+                }
+                document.getElementById('applicableSlab').textContent = slabText;
+
+                // Display calculation explanation
+                let explanation = 'No tax applicable (income below taxable threshold)';
+                if (slab && slab.rate > 0) {
+                    const amountAboveMin = annualIncome - slab.min;
+                    if (slab.fixedAmount === 0) {
+                        explanation = `${(slab.rate * 100).toFixed(1)}% of PKR ${amountAboveMin.toLocaleString()} = PKR ${annualTax.toLocaleString()}`;
+                    } else {
+                        const variableTax = amountAboveMin * slab.rate;
+                        explanation = `PKR ${slab.fixedAmount.toLocaleString()} (fixed) + ${(slab.rate * 100).toFixed(1)}% of PKR ${amountAboveMin.toLocaleString()} (excess) = PKR ${slab.fixedAmount.toLocaleString()} + PKR ${Math.round(variableTax).toLocaleString()} = PKR ${annualTax.toLocaleString()}`;
+                    }
+                }
+                document.getElementById('calculationExplanation').textContent = explanation;
+
                 const resultsSection = document.getElementById('results');
                 resultsSection.style.display = 'block';
                 resultsSection.classList.add('animate-in');
@@ -554,10 +615,6 @@
                 document.querySelector('.calculate-btn').classList.remove('loading');
                 resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 300);
-        }
-
-        function runVerificationTests() {
-            // Function removed as verification section was removed
         }
 
         // Initialize
